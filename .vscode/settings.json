@@ -1,0 +1,13 @@
+{
+    "workbench.editorAssociations": {
+        "*.md": "default",
+        "*.copilotmd": "vscode.markdown.preview.editor"
+    },
+    "markdown-preview-enhanced.enablePreviewZenMode": true,
+    "markdown-preview-enhanced.doubleClickToSwitchToEditing": true,
+    "markdown-preview-enhanced.previewTheme": "github-light.css",
+    "markdown-preview-enhanced.enableWikiLinkSyntax": true,
+    "markdown-preview-enhanced.enableLinkify": true,
+    "markdown-preview-enhanced.enableTypographer": true,
+    "markdown-preview-enhanced.enableScriptExecution": false
+}

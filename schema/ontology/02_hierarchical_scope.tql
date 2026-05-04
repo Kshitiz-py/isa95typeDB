@@ -1,0 +1,24 @@
+define
+  equipment-id sub attribute,
+    value string;
+
+  equipment-element-level sub attribute,
+    value string;
+
+  hierarchy-scope sub entity,
+    owns equipment-id,
+    owns equipment-element-level;
+
+  has-hierarchy-scope sub relation,
+    relates scoped-object,
+    relates hierarchy-scope;
+
+  # Notes:
+  # - In DIN 62264-2 section 4.7, Hierarchy Scope is described as an attribute used by many objects.
+  # - The standard also says this attribute may be modeled using a Hierarchy Scope object with its own attributes.
+  # - In TypeDB, attributes cannot own sub-attributes, so representing Hierarchy Scope as an entity is an appropriate implementation.
+  # - `hierarchy-scope` contains the two sub-attributes defined in Table 3:
+  #   * `equipment-id` (unique equipment element identifier)
+  #   * `equipment-element-level` (equipment hierarchy level such as Enterprise, Site, Area, Work Center)
+  # - The link `has-hierarchy-scope` models the optional relationship from other objects to a hierarchy scope instance.
+  # - Example objects that may use Hierarchy Scope include Production Performance, Production Capability, Maintenance, Quality, and Inventory information.

@@ -52,7 +52,7 @@ For each DIN 62264 concept:
 
 - [x] Document 2: Hierarchical Scope
   - [x] Visualization: `02_hierarchical_scope.drawio`
-  - [ ] Ontology: `02_hierarchical_scope.tql`
+  - [x] Ontology: `02_hierarchical_scope.tql`
   - [ ] Documentation notes
 
 ## How to Use
