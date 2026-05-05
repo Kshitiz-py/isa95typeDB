@@ -22,10 +22,13 @@ define
 
 # Personnel Class Property Entity
 # Properties that define characteristics of a personnel class (e.g., "Class 1 Certified")
+# These properties may also be nested under other personnel class properties.
 define
   personnel-class-property sub entity,
     plays personnel-class-property-owned,
     plays personnel-class-property-definition,
+    plays personnel-class-property-parent,
+    plays personnel-class-property-child,
     plays qualification-test-subject,
     owns personnel-class-property-id @key,
     owns personnel-class-property-description,
@@ -46,10 +49,13 @@ define
 
 # Person Property Entity
 # Properties that define characteristics of a specific person
+# These properties may also be nested under other person properties.
 define
   person-property sub entity,
     plays person-property-owned,
     plays person-property-instance,
+    plays person-property-parent,
+    plays person-property-child,
     plays qualification-test-subject,
     owns person-property-id @key,
     owns person-property-description,
@@ -75,7 +81,6 @@ define
   qualification-test-result sub entity,
     plays qualification-test-result-produced,
     owns qualification-test-result-id @key,
-    owns qualification-test-result-person-id,
     owns qualification-test-result-description,
     owns qualification-test-result-value,
     owns qualification-test-result-result-unit-of-measure,
@@ -92,6 +97,14 @@ define
     relates personnel-class-property-owned,
     owns has-personnel-class-property-id @key;
 
+# Nested personnel class properties
+# A personnel class property may contain nested personnel class properties.
+define
+  has-personnel-class-sub-property sub relation,
+    relates personnel-class-property-parent,
+    relates personnel-class-property-child,
+    owns has-personnel-class-sub-property-id @key;
+
 # Association: Person belongs to Personnel Classes
 define
   belongs-to-personnel-class sub relation,
@@ -106,6 +119,14 @@ define
     relates person-owner,
     relates person-property-owned,
     owns has-person-property-id @key;
+
+# Nested person properties
+# A person property may contain nested person properties.
+define
+  has-person-sub-property sub relation,
+    relates person-property-parent,
+    relates person-property-child,
+    owns has-person-sub-property-id @key;
 
 # Association: Person Property corresponds to Personnel Class Property
 define
