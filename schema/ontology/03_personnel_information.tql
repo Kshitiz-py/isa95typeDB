@@ -1,14 +1,22 @@
 # Personnel Information Ontology (DIN 62264-2 Section 5.1)
-# This schema defines the personnel model including classes, properties, and individuals.
+# This schema defines the personnel model including classes, properties, individuals,
+# qualification test specifications, and qualification test results.
 # Composition relationships (has-personnel-class-property, has-person-property) require
 # cascading delete enforcement at the application layer since TypeDB does not support
 # native cascading deletes. When deleting a parent entity, all child properties must be
 # deleted by the application.
+#
+# Note: Relation IDs are included as a design choice to uniquely identify relation
+# instances, making them easier to query and extend with metadata. These IDs are
+# optional and not required by DIN 62264-2.
 
 # Personnel Class Entity
 # Represents a category or classification of personnel (e.g., "Widget Assembly Operator")
 define
   personnel-class sub entity,
+    plays personnel-class-membership,
+    plays personnel-class-owner,
+    plays qualification-test-subject,
     owns personnel-class-id @key,
     owns personnel-class-description;
 
@@ -16,6 +24,9 @@ define
 # Properties that define characteristics of a personnel class (e.g., "Class 1 Certified")
 define
   personnel-class-property sub entity,
+    plays personnel-class-property-owned,
+    plays personnel-class-property-definition,
+    plays qualification-test-subject,
     owns personnel-class-property-id @key,
     owns personnel-class-property-description,
     owns personnel-class-property-value,
@@ -25,6 +36,10 @@ define
 # Represents a specific individual
 define
   person sub entity,
+    plays person-member,
+    plays person-owner,
+    plays qualification-test-subject,
+    plays qualification-test-result-person,
     owns person-id @key,
     owns person-description,
     owns person-name;
@@ -33,10 +48,34 @@ define
 # Properties that define characteristics of a specific person
 define
   person-property sub entity,
+    plays person-property-owned,
+    plays person-property-instance,
+    plays qualification-test-subject,
     owns person-property-id @key,
     owns person-property-description,
     owns person-property-value,
     owns person-property-value-unit-of-measure;
+
+# Qualification Test Specification Entity
+# Represents a test definition that may be associated with people, classes, or properties.
+define
+  qualification-test-specification sub entity,
+    plays qualification-test-specification,
+    plays qualification-test-specification-producer,
+    owns qualification-test-specification-id @key,
+    owns qualification-test-specification-description,
+    owns qualification-test-specification-version;
+
+# Qualification Test Result Entity
+# Represents the result of executing a qualification test for a specific person.
+define
+  qualification-test-result sub entity,
+    plays qualification-test-result-produced,
+    plays qualification-test-result-person,
+    owns qualification-test-result-id @key,
+    owns qualification-test-result-value,
+    owns qualification-test-result-date,
+    owns qualification-test-result-expiration;
 
 # Relations
 
@@ -70,32 +109,25 @@ define
     relates personnel-class-property-definition,
     owns corresponds-to-personnel-class-property-id @key;
 
-# Optional: Qualification Test Specification (referenced in Section 5.1)
-# Can be expanded in future sections
-define
-  qualification-test-specification sub entity,
-    owns qualification-test-specification-id @key,
-    owns qualification-test-specification-description,
-    owns qualification-test-specification-version;
-
-# Optional: Qualification Test Result (referenced in Section 5.1)
-define
-  qualification-test-result sub entity,
-    owns qualification-test-result-id @key,
-    owns qualification-test-result-value;
-
-# Relations for qualification testing
 # Association: A qualification test specification may be associated with a personnel class,
-# a personnel class property, a person, or a person property.
-# This is an association relation, not composition.
+# a personnel class property, a person, or a person property. This is an association relation,
+# not composition.
 define
   tested-by-qualification-test-specification sub relation,
     relates qualification-test-subject,
     relates qualification-test-specification,
     owns tested-by-qualification-test-specification-id @key;
 
+# Association: A qualification test specification may produce one or more results.
 define
   produces-qualification-test-result sub relation,
     relates qualification-test-specification-producer,
     relates qualification-test-result-produced,
     owns produces-qualification-test-result-id @key;
+
+# Association: A qualification test result is for a specific person.
+define
+  qualification-test-result-for-person sub relation,
+    relates qualification-test-result-produced,
+    relates qualification-test-result-person,
+    owns qualification-test-result-for-person-id @key;
