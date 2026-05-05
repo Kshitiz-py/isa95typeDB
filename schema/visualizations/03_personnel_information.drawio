@@ -52,8 +52,8 @@
                 <mxCell id="examples_box" value="EXAMPLES" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;strokeWidth=2;fontSize=12;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="40" y="565" width="1100" height="150" as="geometry"/>
                 </mxCell>
-                <mxCell id="examples_text" value="Personnel Class: &#39;Widget Assembly Operator&#39;&#xa;Personnel Class Property: &#39;Class 1 Certified&#39; (values: True/False)&#xa;Person: &#39;Jane Smith&#39; (ID: EMP001)&#xa;Person Property: &#39;Class 1 Certified&#39; = True&#xa;&#xa;Composition Note: Deleting a Personnel Class requires deleting all its properties. Deleting a Person requires deleting all its properties. Enforce at application layer since TypeDB doesn&#39;t support native cascading deletes." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fillColor=none;strokeColor=none;" parent="1" vertex="1">
-                    <mxGeometry x="60" y="580" width="1060" height="120" as="geometry"/>
+                <mxCell id="examples_text" value="Personnel Class: &#39;Widget Assembly Operator&#39;&#xa;Personnel Class Property: &#39;Class 1 Certified&#39; (values: True/False)&#xa;Person: &#39;Jane Smith&#39; (ID: EMP001)&#xa;Person Property: &#39;Class 1 Certified&#39; = True&#xa;&#xa;Qualification Test Specification may be associated with Personnel Class, Personnel Class Property, Person, or Person Property.&#xa;&#xa;Composition Note: Deleting a Personnel Class requires deleting all its properties. Deleting a Person requires deleting all its properties. Enforce at application layer since TypeDB doesn&#39;t support native cascading deletes." style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fillColor=none;strokeColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="580" width="1060" height="140" as="geometry"/>
                 </mxCell>
                 <mxCell id="qual_test_spec" value="Qualification Test Specification&#xa;(Referenced in 5.1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffebee;strokeColor=#b71c1c;strokeWidth=1;fontSize=10;fontStyle=2;" parent="1" vertex="1">
                     <mxGeometry x="380" y="340" width="180" height="60" as="geometry"/>
@@ -67,12 +67,39 @@
                         <mxPoint x="650" y="280" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="qual_arrow2" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="person_prop" target="qual_test_spec" edge="1">
+                <mxCell id="qual_arrow2" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="person_prop" target="qual_test_spec" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="300" y="420" as="sourcePoint"/>
                         <mxPoint x="650" y="420" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="300" y="385"/>
+                            <mxPoint x="620" y="400"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="qual_arrow2b" value="defines procedure for obtaining" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" parent="1" source="qual_test_spec" target="person_prop" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="520" y="355" as="sourcePoint"/>
+                        <mxPoint x="350" y="420" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="420" y="380"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="qual_arrow2c" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" parent="1" source="person" target="qual_test_spec" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="220" y="430" as="sourcePoint"/>
+                        <mxPoint x="420" y="360" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="330" y="410"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="qual_arrow2d" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" parent="1" source="personnel_class" target="qual_test_spec" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="220" y="290" as="sourcePoint"/>
+                        <mxPoint x="420" y="360" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="330" y="320"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>

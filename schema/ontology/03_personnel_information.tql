@@ -85,10 +85,12 @@ define
     owns qualification-test-result-value;
 
 # Relations for qualification testing
-# Association: Properties can be tested by qualification test specifications
+# Association: A qualification test specification may be associated with a personnel class,
+# a personnel class property, a person, or a person property.
+# This is an association relation, not composition.
 define
   tested-by-qualification-test-specification sub relation,
-    relates property-being-tested,
+    relates qualification-test-subject,
     relates qualification-test-specification,
     owns tested-by-qualification-test-specification-id @key;
 
