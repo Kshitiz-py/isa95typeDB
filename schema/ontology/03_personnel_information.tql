@@ -73,7 +73,9 @@ define
     plays qualification-test-result-produced,
     plays qualification-test-result-person,
     owns qualification-test-result-id @key,
+    owns qualification-test-result-description,
     owns qualification-test-result-value,
+    owns qualification-test-result-result-unit-of-measure,
     owns qualification-test-result-date,
     owns qualification-test-result-expiration;
 
