@@ -85,10 +85,11 @@ define
     owns qualification-test-result-value;
 
 # Relations for qualification testing
+# Association: Properties can be tested by qualification test specifications
 define
   tested-by-qualification-test-specification sub relation,
-    relates tested-entity,
-    relates qualification-test-specification-tester,
+    relates property-being-tested,
+    relates qualification-test-specification,
     owns tested-by-qualification-test-specification-id @key;
 
 define
