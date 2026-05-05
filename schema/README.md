@@ -1,11 +1,11 @@
 # Schema Development Structure
 
-This directory contains the TypeDB ontological schema and educational visualizations for ISA-95 / DIN 62264-2 manufacturing standards.
+This directory contains the TypeDB ontological schema and educational visualizations for IEC 62264 / DIN EN 62264-2 manufacturing standards.
 
 ## Folder Organization
 
 ### `/ontology/`
-Contains TypeDB schema files (.tql) implementing the ISA-95 concepts:
+Contains TypeDB schema files (.tql) implementing the IEC 62264 concepts:
 - Entity definitions
 - Relationship definitions
 - Rules and constraints

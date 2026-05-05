@@ -1,4 +1,4 @@
-# ISA-95 / DIN 62264-2 Development Checklist
+# IEC 62264 / DIN 62264-2 Development Checklist
 
 This checklist is the authoritative base for tracking our implementation of DIN 62264-2 in DrawIO diagrams and TypeDB ontology.
 Use it first for all standard objects and sections. If we add items that are not in the standard, record them in the **Non-standard additions** section below and highlight them clearly.
@@ -194,9 +194,9 @@ For each new DIN 62264 document section:
 - [ ] Create a visualization that explains the concept clearly for users
 - [ ] Create corresponding TypeDB ontology schema
 - [ ] Add source references and implementation notes
-- [ ] Verify the model against the specification# ISA-95 / DIN 62264-2 Development Checklist
+- [ ] Verify the model against the specification
 
-This checklist is for building the ISA-95/DIN 62264-2 visualizations and TypeDB ontology.
+This checklist is for building the IEC 62264 / DIN 62264-2 visualizations and TypeDB ontology.
 Mark each item as completed as you progress.
 
 ## Section 4.7 — Hierarchy Scope

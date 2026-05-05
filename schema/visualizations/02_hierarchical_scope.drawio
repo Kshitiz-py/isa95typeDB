@@ -6,7 +6,7 @@
         <mxCell id="1" parent="0"/>
         
         <!-- Title -->
-        <mxCell id="title" value="HIERARCHICAL SCOPE (DIN 62264-2 Section 4.7 / ISA-95-1)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+        <mxCell id="title" value="HIERARCHICAL SCOPE (DIN 62264-2 Section 4.7 / IEC 62264-1)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="50" y="20" width="1100" height="50" as="geometry"/>
         </mxCell>
         
