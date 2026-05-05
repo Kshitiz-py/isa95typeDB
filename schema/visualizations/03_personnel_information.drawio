@@ -16,8 +16,8 @@
                 <mxCell id="personnel_class" value="Personnel Class&#xa;(Table 5)&#xa;- ID&#xa;- Description" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;strokeWidth=2;fontSize=11;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="100" y="250" width="200" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="personnel_class_prop" value="Personnel Class Property&#xa;(Table 6)&#xa;- ID&#xa;- Description&#xa;- Value&#xa;- Value Unit of Measure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;strokeWidth=2;fontSize=11;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="640" y="239" width="200" height="100" as="geometry"/>
+                <mxCell id="personnel_class_prop" value="Personnel Class Property&#xa;(Table 6)&#xa;- ID&#xa;- Description&#xa;- Value&#xa;- Value Unit of Measure&#xa;- May contain nested personnel class properties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff3e0;strokeColor=#e65100;strokeWidth=2;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="239" width="200" height="120" as="geometry"/>
                 </mxCell>
                 <mxCell id="comp_arrow1" value="has (composition)" style="endArrow=block;html=1;fontSize=10;fontStyle=1;endFill=1;endSize=8;strokeColor=#e65100;" parent="1" source="personnel_class" target="personnel_class_prop" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -25,16 +25,34 @@
                         <mxPoint x="350" y="290" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
+                <mxCell id="nested_pc_prop" value="has sub property" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#e65100;" parent="1" source="personnel_class_prop" target="personnel_class_prop" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="260" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="820" y="220"/>
+                            <mxPoint x="780" y="200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="person" value="Person&#xa;(Table 7)&#xa;- ID&#xa;- Description&#xa;- Name" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#1b5e20;strokeWidth=2;fontSize=11;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="100" y="460" width="200" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="person_prop" value="Person Property&#xa;(Table 8)&#xa;- ID&#xa;- Description&#xa;- Value&#xa;- Value Unit of Measure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#1b5e20;strokeWidth=2;fontSize=11;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="640" y="450" width="200" height="100" as="geometry"/>
+                <mxCell id="person_prop" value="Person Property&#xa;(Table 8)&#xa;- ID&#xa;- Description&#xa;- Value&#xa;- Value Unit of Measure&#xa;- May contain nested person properties" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#1b5e20;strokeWidth=2;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="450" width="200" height="120" as="geometry"/>
                 </mxCell>
                 <mxCell id="comp_arrow2" value="has (composition)" style="endArrow=block;html=1;fontSize=10;fontStyle=1;endFill=1;endSize=8;strokeColor=#1b5e20;" parent="1" source="person" target="person_prop" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="300" y="440" as="sourcePoint"/>
                         <mxPoint x="350" y="440" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="nested_person_prop" value="has sub property" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#1b5e20;" parent="1" source="person_prop" target="person_prop" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="760" y="470" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="820" y="430"/>
+                            <mxPoint x="780" y="410"/>
+                        </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="assoc_arrow1" value="belongs to (association)" style="endArrow=open;html=1;fontSize=10;fontStyle=1;dashed=1;strokeColor=#01579b;" parent="1" source="person" target="personnel_class" edge="1">
@@ -67,25 +85,16 @@
                         <mxPoint x="650" y="280" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="qual_arrow2" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="person_prop" target="qual_test_spec" edge="1">
-                    <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="300" y="420" as="sourcePoint"/>
-                        <mxPoint x="650" y="420" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="620" y="400"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="qual_arrow2b" value="defines procedure for obtaining" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" parent="1" source="qual_test_spec" target="person_prop" edge="1">
+                <mxCell id="qual_arrow2b" value="defines procedure for obtaining" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" edge="1" parent="1" source="qual_test_spec" target="person_prop">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="520" y="355" as="sourcePoint"/>
                         <mxPoint x="350" y="420" as="targetPoint"/>
                         <Array as="points">
-                            <mxPoint x="420" y="380"/>
+                            <mxPoint x="630" y="410"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="qual_arrow2c" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" parent="1" source="person" target="qual_test_spec" edge="1">
+                <mxCell id="qual_arrow2c" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" edge="1" parent="1" source="person" target="qual_test_spec">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="220" y="430" as="sourcePoint"/>
                         <mxPoint x="420" y="360" as="targetPoint"/>
@@ -94,7 +103,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="qual_arrow2d" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" parent="1" source="personnel_class" target="qual_test_spec" edge="1">
+                <mxCell id="qual_arrow2d" value="tested by" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#b71c1c;" edge="1" parent="1" source="personnel_class" target="qual_test_spec">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="220" y="290" as="sourcePoint"/>
                         <mxPoint x="420" y="360" as="targetPoint"/>
