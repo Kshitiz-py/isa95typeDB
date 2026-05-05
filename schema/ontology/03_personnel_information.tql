@@ -68,11 +68,14 @@ define
 
 # Qualification Test Result Entity
 # Represents the result of executing a qualification test for a specific person.
+# The standard describes the result as recording an execution for a specific person,
+# but it does not define an explicit relation from the result to the person in Figure 5.
+# That person association is therefore captured via the result data semantics.
 define
   qualification-test-result sub entity,
     plays qualification-test-result-produced,
-    plays qualification-test-result-person,
     owns qualification-test-result-id @key,
+    owns qualification-test-result-person-id,
     owns qualification-test-result-description,
     owns qualification-test-result-value,
     owns qualification-test-result-result-unit-of-measure,
@@ -127,9 +130,3 @@ define
     relates qualification-test-result-produced,
     owns produces-qualification-test-result-id @key;
 
-# Association: A qualification test result is for a specific person.
-define
-  qualification-test-result-for-person sub relation,
-    relates qualification-test-result-produced,
-    relates qualification-test-result-person,
-    owns qualification-test-result-for-person-id @key;
