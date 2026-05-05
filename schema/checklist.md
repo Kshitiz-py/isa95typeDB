@@ -36,16 +36,16 @@ Use it first for all standard objects and sections. If we add items that are not
 
 ### 5.1 Personnel Information
 
-- [ ] Read section 5.1 and identify all personnel-related objects and attributes
-- [ ] Create DrawIO diagram for Personnel model (Figure 5)
-- [ ] Create TypeDB ontology for:
-  - [ ] Person
-  - [ ] Personnel Class
-  - [ ] Person Property
-  - [ ] Personnel Class Property
-  - [ ] Qualification Test Specification
-  - [ ] Qualification Test Result
-- [ ] Add documentation notes for personnel information
+- [x] Read section 5.1 and identify all personnel-related objects and attributes
+- [x] Create DrawIO diagram for Personnel model (Figure 5)
+- [x] Create TypeDB ontology for:
+  - [x] Person
+  - [x] Personnel Class
+  - [x] Person Property
+  - [x] Personnel Class Property
+  - [x] Qualification Test Specification
+  - [x] Qualification Test Result
+- [x] Add documentation notes for personnel information
 
 ### 5.2 Equipment Information
 

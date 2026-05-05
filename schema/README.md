@@ -54,6 +54,10 @@ For each DIN 62264 concept:
   - [x] Visualization: `02_hierarchical_scope.drawio`
   - [x] Ontology: `02_hierarchical_scope.tql`
   - [ ] Documentation notes
+- [x] Document 5.1: Personnel Information
+  - [x] Visualization: `03_personnel_information.drawio`
+  - [x] Ontology: `03_personnel_information.tql`
+  - [ ] Documentation notes
 
 ## How to Use
 
