@@ -25,7 +25,7 @@
                         <mxPoint x="350" y="290" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="nested_pc_prop" value="has sub property" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#e65100;" parent="1" source="personnel_class_prop" target="personnel_class_prop" edge="1">
+                <mxCell id="nested_pc_prop" value="has sub property" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#e65100;" edge="1" parent="1" source="personnel_class_prop" target="personnel_class_prop">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="760" y="260" as="targetPoint"/>
                         <Array as="points">
@@ -46,7 +46,7 @@
                         <mxPoint x="350" y="440" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="nested_person_prop" value="has sub property" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#1b5e20;" parent="1" source="person_prop" target="person_prop" edge="1">
+                <mxCell id="nested_person_prop" value="has sub property" style="endArrow=open;html=1;fontSize=9;dashed=1;strokeColor=#1b5e20;" edge="1" parent="1" source="person_prop" target="person_prop">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="760" y="470" as="targetPoint"/>
                         <Array as="points">
@@ -61,10 +61,10 @@
                         <mxPoint x="200" y="330" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="assoc_arrow2" value="corresponds to (association)" style="endArrow=open;html=1;fontSize=10;fontStyle=1;dashed=1;strokeColor=#01579b;" parent="1" source="person_prop" target="personnel_class_prop" edge="1">
+                <mxCell id="assoc_arrow2" value="corresponds to (association)" style="endArrow=open;html=1;fontSize=10;fontStyle=1;dashed=1;strokeColor=#01579b;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="person_prop" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="450" y="400" as="sourcePoint"/>
-                        <mxPoint x="450" y="350" as="targetPoint"/>
+                        <mxPoint x="740" y="436" as="sourcePoint"/>
+                        <mxPoint x="740" y="360" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="examples_box" value="EXAMPLES" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e5f5;strokeColor=#4a148c;strokeWidth=2;fontSize=12;fontStyle=1;" parent="1" vertex="1">
