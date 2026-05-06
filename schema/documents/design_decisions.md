@@ -71,3 +71,12 @@ In the early stages of schema modeling, attributes (e.g., `person-id`, `descript
 
 **Strict Load Order Requirement:**
 Because schemas are evaluated incrementally, **file load order is critical**. The numeric prefixes on the files (`02_`, `03_`, `04_`, `05_`) dictate the exact order they must be committed to the TypeDB database. If `05_physical_asset_information.tql` is loaded before `04_role_based_equipment.tql`, the compiler will fail because it attempts to extend an `equipment` entity that does not yet exist in the database graph.
+
+## 6. Naming Conventions: Compositions vs. Associations
+
+To ensure querying predictability and clear architectural semantics across the IEC 62264 models, strict naming conventions are enforced for relation verbs in the ontology.
+
+**Design Implication (The `has-` Prefix Rule):**
+* The prefix `has-` is **strictly reserved for Composition relationships**. 
+* Any relation starting with `has-` (e.g., `has-personnel-class-property`, `has-equipment-sub-property`) implies an ownership lifecycle. If the parent entity is deleted, application-layer logic **must** cascade the deletion to the child property.
+* For standard associations that do not imply strict lifecycle ownership, other descriptive verbs are used. For example, hierarchical nesting of tangible assets is defined using `made-up-of-` (e.g., `made-up-of-equipment`, `made-up-of-physical-asset`) to explicitly differentiate it from composition. Other common association verbs include `belongs-to-`, `corresponds-to-`, and `tested-by-`.

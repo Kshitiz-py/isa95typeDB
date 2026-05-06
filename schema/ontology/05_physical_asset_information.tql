@@ -193,12 +193,12 @@ define
 
 # Association: Physical Asset may be made up of other physical assets
 define
-  has-sub-physical-asset-id sub attribute, value string;
+  made-up-of-physical-asset-id sub attribute, value string;
 
-  has-sub-physical-asset sub relation,
+  made-up-of-physical-asset sub relation,
     relates physical-asset-parent,
     relates physical-asset-child,
-    owns has-sub-physical-asset-id @key;
+    owns made-up-of-physical-asset-id @key;
 
 # Association: A capability test specification may be associated with class, property, or asset
 define

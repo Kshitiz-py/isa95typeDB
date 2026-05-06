@@ -180,12 +180,12 @@ define
 
 # Association: Equipment may be made up of other equipment
 define
-  has-sub-equipment-id sub attribute, value string;
+  made-up-of-equipment-id sub attribute, value string;
 
-  has-sub-equipment sub relation,
+  made-up-of-equipment sub relation,
     relates equipment-parent,
     relates equipment-child,
-    owns has-sub-equipment-id @key;
+    owns made-up-of-equipment-id @key;
 
 # Association: A capability test specification may be associated with an equipment class,
 # an equipment class property, an equipment, or an equipment property. 
