@@ -49,31 +49,30 @@ Use it first for all standard objects and sections. If we add items that are not
 
 ### 5.2 Equipment Information
 
-- [ ] Read section 5.2 and identify all equipment-related objects and attributes
-- [ ] Create DrawIO diagram for Equipment model (Figure 6)
-- [ ] Create TypeDB ontology for:
-  - [ ] Equipment
-  - [ ] Equipment Class
-  - [ ] Equipment Property
-  - [ ] Equipment Class Property
-  - [ ] Equipment Capability Test Specification
-  - [ ] Equipment Capability Test Result
-- [ ] Add documentation notes for equipment information
+- [x] Read section 5.2 and identify all equipment-related objects and attributes
+- [x] Create DrawIO diagram for Role based equipment model (Figure 6)
+- [x] Create TypeDB ontology for:
+  - [x] Equipment
+  - [x] Equipment Class
+  - [x] Equipment Property
+  - [x] Equipment Class Property
+  - [x] Equipment Capability Test Specification
+  - [x] Equipment Capability Test Result
+- [x] Add documentation notes for equipment information
 
-### 5.3 Material Information
+### 5.3 Physical Asset Information
 
-- [ ] Read section 5.3 and identify all material-related objects and attributes
-- [ ] Create DrawIO diagram for Material model (Figure 7)
-- [ ] Create TypeDB ontology for:
-  - [ ] Material Definition
-  - [ ] Material Class
-  - [ ] Material Lot
-  - [ ] Material Sublot
-  - [ ] Material Test Specification
-  - [ ] Material Test Result
-  - [ ] Material Property
-  - [ ] Material Class Property
-- [ ] Add documentation notes for material information
+- [x] Read section 5.3 and identify all physical asset-related objects and attributes
+- [x] Create DrawIO diagram for Physical asset model (Figure 7 and 8)
+- [x] Create TypeDB ontology for:
+  - [x] Physical Asset
+  - [x] Physical Asset Class
+  - [x] Physical Asset Property
+  - [x] Physical Asset Class Property
+  - [x] Physical Asset Capability Test Specification
+  - [x] Physical Asset Capability Test Result
+  - [x] Equipment Asset Mapping
+- [x] Add documentation notes for physical asset information (documenting `0..1` cardinality for asset to asset class)
 
 ### 5.4 Process Segment Information
 

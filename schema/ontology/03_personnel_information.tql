@@ -13,6 +13,9 @@
 # Personnel Class Entity
 # Represents a category or classification of personnel (e.g., "Widget Assembly Operator")
 define
+  personnel-class-id sub attribute, value string;
+  personnel-class-description sub attribute, value string;
+
   personnel-class sub entity,
     plays personnel-class-membership,
     plays personnel-class-owner,
@@ -24,6 +27,11 @@ define
 # Properties that define characteristics of a personnel class (e.g., "Class 1 Certified")
 # These properties may also be nested under other personnel class properties.
 define
+  personnel-class-property-id sub attribute, value string;
+  personnel-class-property-description sub attribute, value string;
+  personnel-class-property-value sub attribute, value string;
+  personnel-class-property-value-unit-of-measure sub attribute, value string;
+
   personnel-class-property sub entity,
     plays personnel-class-property-owned,
     plays personnel-class-property-definition,
@@ -38,6 +46,10 @@ define
 # Person Entity
 # Represents a specific individual
 define
+  person-id sub attribute, value string;
+  person-description sub attribute, value string;
+  person-name sub attribute, value string;
+
   person sub entity,
     plays person-member,
     plays person-owner,
@@ -51,6 +63,11 @@ define
 # Properties that define characteristics of a specific person
 # These properties may also be nested under other person properties.
 define
+  person-property-id sub attribute, value string;
+  person-property-description sub attribute, value string;
+  person-property-value sub attribute, value string;
+  person-property-value-unit-of-measure sub attribute, value string;
+
   person-property sub entity,
     plays person-property-owned,
     plays person-property-instance,
@@ -65,6 +82,10 @@ define
 # Qualification Test Specification Entity
 # Represents a test definition that may be associated with people, classes, or properties.
 define
+  qualification-test-specification-id sub attribute, value string;
+  qualification-test-specification-description sub attribute, value string;
+  qualification-test-specification-version sub attribute, value string;
+
   qualification-test-specification sub entity,
     plays qualification-test-specification,
     plays qualification-test-specification-producer,
@@ -78,6 +99,13 @@ define
 # but it does not define an explicit relation from the result to the person in Figure 5.
 # That person association is therefore captured via the result data semantics.
 define
+  qualification-test-result-id sub attribute, value string;
+  qualification-test-result-description sub attribute, value string;
+  qualification-test-result-value sub attribute, value string;
+  qualification-test-result-result-unit-of-measure sub attribute, value string;
+  qualification-test-result-date sub attribute, value datetime;
+  qualification-test-result-expiration sub attribute, value datetime;
+
   qualification-test-result sub entity,
     plays qualification-test-result-produced,
     owns qualification-test-result-id @key,
@@ -92,6 +120,8 @@ define
 # Composition: Personnel Class has Personnel Class Properties
 # CASCADE DELETE: When deleting personnel-class, application must delete all related personnel-class-property entities
 define
+  has-personnel-class-property-id sub attribute, value string;
+
   has-personnel-class-property sub relation,
     relates personnel-class-owner,
     relates personnel-class-property-owned,
@@ -100,6 +130,8 @@ define
 # Nested personnel class properties
 # A personnel class property may contain nested personnel class properties.
 define
+  has-personnel-class-sub-property-id sub attribute, value string;
+
   has-personnel-class-sub-property sub relation,
     relates personnel-class-property-parent,
     relates personnel-class-property-child,
@@ -107,6 +139,8 @@ define
 
 # Association: Person belongs to Personnel Classes
 define
+  belongs-to-personnel-class-id sub attribute, value string;
+
   belongs-to-personnel-class sub relation,
     relates person-member,
     relates personnel-class-membership,
@@ -115,6 +149,8 @@ define
 # Composition: Person has Person Properties
 # CASCADE DELETE: When deleting person, application must delete all related person-property entities
 define
+  has-person-property-id sub attribute, value string;
+
   has-person-property sub relation,
     relates person-owner,
     relates person-property-owned,
@@ -123,6 +159,8 @@ define
 # Nested person properties
 # A person property may contain nested person properties.
 define
+  has-person-sub-property-id sub attribute, value string;
+
   has-person-sub-property sub relation,
     relates person-property-parent,
     relates person-property-child,
@@ -130,6 +168,8 @@ define
 
 # Association: Person Property corresponds to Personnel Class Property
 define
+  corresponds-to-personnel-class-property-id sub attribute, value string;
+
   corresponds-to-personnel-class-property sub relation,
     relates person-property-instance,
     relates personnel-class-property-definition,
@@ -139,6 +179,8 @@ define
 # a personnel class property, a person, or a person property. This is an association relation,
 # not composition.
 define
+  tested-by-qualification-test-specification-id sub attribute, value string;
+
   tested-by-qualification-test-specification sub relation,
     relates qualification-test-subject,
     relates qualification-test-specification,
@@ -146,6 +188,8 @@ define
 
 # Association: A qualification test specification may produce one or more results.
 define
+  produces-qualification-test-result-id sub attribute, value string;
+
   produces-qualification-test-result sub relation,
     relates qualification-test-specification-producer,
     relates qualification-test-result-produced,

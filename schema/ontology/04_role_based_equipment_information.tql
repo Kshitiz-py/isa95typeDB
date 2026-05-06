@@ -1,0 +1,207 @@
+# Role Based Equipment Information Ontology (IEC 62264-2 Section 5.2)
+# This schema defines the role-based equipment model including equipment classes, 
+# properties, specific equipment, test specifications, and test results.
+# Composition relationships (has-equipment-class-property, has-equipment-property) require
+# cascading delete enforcement at the application layer since TypeDB does not support
+# native cascading deletes. When deleting a parent entity, all child properties must be
+# deleted by the application.
+#
+# Note: Relation IDs are included as a design choice to uniquely identify relation
+# instances, making them easier to query and extend with metadata. These IDs are
+# optional and not required by IEC 62264-2.
+
+# Equipment Class Entity
+# Represents a grouping of equipment with similar characteristics (e.g., "reactor unit")
+define
+  equipment-class-id sub attribute, value string;
+  equipment-class-description sub attribute, value string;
+  equipment-level sub attribute, value string;
+
+  equipment-class sub entity,
+    plays equipment-class-membership,
+    plays equipment-class-owner,
+    plays equipment-capability-test-subject,
+    owns equipment-class-id @key,
+    owns equipment-class-description,
+    owns equipment-level;
+
+# Equipment Class Property Entity
+# Properties that define characteristics of an equipment class.
+# These properties may also be nested under other equipment class properties.
+define
+  equipment-class-property-id sub attribute, value string;
+  equipment-class-property-description sub attribute, value string;
+  equipment-class-property-value sub attribute, value string;
+  equipment-class-property-value-unit-of-measure sub attribute, value string;
+
+  equipment-class-property sub entity,
+    plays equipment-class-property-owned,
+    plays equipment-class-property-definition,
+    plays equipment-class-property-parent,
+    plays equipment-class-property-child,
+    plays equipment-capability-test-subject,
+    owns equipment-class-property-id @key,
+    owns equipment-class-property-description,
+    owns equipment-class-property-value,
+    owns equipment-class-property-value-unit-of-measure;
+
+# Equipment Entity
+# Represents a specific piece of equipment (e.g., "Jig 347")
+define
+  equipment-id sub attribute, value string;
+  equipment-description sub attribute, value string;
+
+  equipment sub entity,
+    plays equipment-member,
+    plays equipment-owner,
+    plays equipment-parent,
+    plays equipment-child,
+    plays equipment-capability-test-subject,
+    plays equipment-capability-test-result-equipment,
+    owns equipment-id @key,
+    owns equipment-description,
+    owns equipment-level;
+
+# Equipment Property Entity
+# Properties that define characteristics of a specific piece of equipment.
+# These properties may also be nested under other equipment properties.
+define
+  equipment-property-id sub attribute, value string;
+  equipment-property-description sub attribute, value string;
+  equipment-property-value sub attribute, value string;
+  equipment-property-value-unit-of-measure sub attribute, value string;
+
+  equipment-property sub entity,
+    plays equipment-property-owned,
+    plays equipment-property-instance,
+    plays equipment-property-parent,
+    plays equipment-property-child,
+    plays equipment-capability-test-subject,
+    owns equipment-property-id @key,
+    owns equipment-property-description,
+    owns equipment-property-value,
+    owns equipment-property-value-unit-of-measure;
+
+# Equipment Capability Test Specification Entity
+# Represents a capability test definition that may be associated with equipment, classes, or properties.
+define
+  equipment-capability-test-specification-id sub attribute, value string;
+  equipment-capability-test-specification-description sub attribute, value string;
+  equipment-capability-test-specification-version sub attribute, value string;
+
+  equipment-capability-test-specification sub entity,
+    plays equipment-capability-test-specification,
+    plays equipment-capability-test-specification-producer,
+    owns equipment-capability-test-specification-id @key,
+    owns equipment-capability-test-specification-description,
+    owns equipment-capability-test-specification-version;
+
+# Equipment Capability Test Result Entity
+# Represents the result of executing an equipment capability test for a specific piece of equipment.
+# The standard describes the result as recording an execution for a specific piece of equipment,
+# but it does not define an explicit relation from the result to the equipment in Figure 6.
+# That equipment association is therefore captured via the result data semantics or implicit models.
+define
+  equipment-capability-test-result-id sub attribute, value string;
+  equipment-capability-test-result-description sub attribute, value string;
+  equipment-capability-test-result-value sub attribute, value string;
+  equipment-capability-test-result-result-unit-of-measure sub attribute, value string;
+  equipment-capability-test-result-date sub attribute, value datetime;
+  equipment-capability-test-result-expiration sub attribute, value datetime;
+
+  equipment-capability-test-result sub entity,
+    plays equipment-capability-test-result-produced,
+    owns equipment-capability-test-result-id @key,
+    owns equipment-capability-test-result-description,
+    owns equipment-capability-test-result-value,
+    owns equipment-capability-test-result-result-unit-of-measure,
+    owns equipment-capability-test-result-date,
+    owns equipment-capability-test-result-expiration;
+
+# Relations
+
+# Composition: Equipment Class has Equipment Class Properties
+# CASCADE DELETE: When deleting equipment-class, application must delete all related equipment-class-property entities
+define
+  has-equipment-class-property-id sub attribute, value string;
+
+  has-equipment-class-property sub relation,
+    relates equipment-class-owner,
+    relates equipment-class-property-owned,
+    owns has-equipment-class-property-id @key;
+
+# Nested equipment class properties
+# An equipment class property may contain nested equipment class properties.
+define
+  has-equipment-class-sub-property-id sub attribute, value string;
+
+  has-equipment-class-sub-property sub relation,
+    relates equipment-class-property-parent,
+    relates equipment-class-property-child,
+    owns has-equipment-class-sub-property-id @key;
+
+# Association: Equipment belongs to Equipment Classes
+define
+  belongs-to-equipment-class-id sub attribute, value string;
+
+  belongs-to-equipment-class sub relation,
+    relates equipment-member,
+    relates equipment-class-membership,
+    owns belongs-to-equipment-class-id @key;
+
+# Composition: Equipment has Equipment Properties
+# CASCADE DELETE: When deleting equipment, application must delete all related equipment-property entities
+define
+  has-equipment-property-id sub attribute, value string;
+
+  has-equipment-property sub relation,
+    relates equipment-owner,
+    relates equipment-property-owned,
+    owns has-equipment-property-id @key;
+
+# Nested equipment properties
+# An equipment property may contain nested equipment properties.
+define
+  has-equipment-sub-property-id sub attribute, value string;
+
+  has-equipment-sub-property sub relation,
+    relates equipment-property-parent,
+    relates equipment-property-child,
+    owns has-equipment-sub-property-id @key;
+
+# Association: Equipment Property corresponds to Equipment Class Property
+define
+  corresponds-to-equipment-class-property-id sub attribute, value string;
+
+  corresponds-to-equipment-class-property sub relation,
+    relates equipment-property-instance,
+    relates equipment-class-property-definition,
+    owns corresponds-to-equipment-class-property-id @key;
+
+# Association: Equipment may be made up of other equipment
+define
+  has-sub-equipment-id sub attribute, value string;
+
+  has-sub-equipment sub relation,
+    relates equipment-parent,
+    relates equipment-child,
+    owns has-sub-equipment-id @key;
+
+# Association: A capability test specification may be associated with an equipment class,
+# an equipment class property, an equipment, or an equipment property. 
+define
+  tested-by-equipment-capability-test-specification-id sub attribute, value string;
+
+  tested-by-equipment-capability-test-specification sub relation,
+    relates equipment-capability-test-subject,
+    relates equipment-capability-test-specification,
+    owns tested-by-equipment-capability-test-specification-id @key;
+
+# Association: An equipment capability test specification may produce one or more results.
+define
+  produces-equipment-capability-test-result-id sub attribute, value string;
+
+  produces-equipment-capability-test-result sub relation,
+    relates equipment-capability-test-specification-producer,
+    relates equipment-capability-test-result-produced,
+    owns produces-equipment-capability-test-result-id @key;
