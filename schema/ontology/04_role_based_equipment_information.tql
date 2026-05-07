@@ -16,12 +16,12 @@ define
 
   attribute equipment-class-id, value string;
   attribute equipment-class-description, value string;
-  attribute equipment-level, value string;
+  attribute equipment-class-level, value string;
 
   entity equipment-class,
     owns equipment-class-id @key,
     owns equipment-class-description,
-    owns equipment-level,
+    owns equipment-class-level,
     plays belongs-to-equipment-class:equipment-class-membership,
     plays has-equipment-class-property:equipment-class-owner,
     plays tested-by-equipment-capability-test-specification:equipment-capability-test-subject;
