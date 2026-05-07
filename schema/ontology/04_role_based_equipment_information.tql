@@ -187,5 +187,7 @@ define
 # Association: An equipment capability test specification may produce one or more results.
   attribute produces-equipment-capability-test-result-id, value string;
 
-  relation produces-equipment-capability-test-result
+  relation produces-equipment-capability-test-result,
+    relates equipment-capability-test-specification-producer,
+    relates equipment-capability-test-result-produced,
     owns produces-equipment-capability-test-result-id @key;
