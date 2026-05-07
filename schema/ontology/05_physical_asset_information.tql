@@ -22,131 +22,125 @@
 
 # Physical Asset Class Entity (Table 19)
 define
-  physical-asset-class-manufacturer sub attribute, value string;
-  physical-asset-class-id sub attribute, value string;
-  physical-asset-class-description sub attribute, value string;
 
-  physical-asset-class sub entity,
-    plays physical-asset-class-membership,
-    plays physical-asset-class-owner,
-    plays physical-asset-capability-test-subject,
+  attribute physical-asset-class-manufacturer, value string;
+  attribute physical-asset-class-id, value string;
+  attribute physical-asset-class-description, value string;
+
+  entity physical-asset-class,
     owns physical-asset-class-manufacturer,
     owns physical-asset-class-id @key,
-    owns physical-asset-class-description;
+    owns physical-asset-class-description,
+    plays belongs-to-physical-asset-class:physical-asset-class-membership,
+    plays has-physical-asset-class-property:physical-asset-class-owner,
+    plays tested-by-physical-asset-capability-test-specification:physical-asset-capability-test-subject;
 
 # Physical Asset Class Property Entity (Table 20)
-define
-  physical-asset-class-property-id sub attribute, value string;
-  physical-asset-class-property-description sub attribute, value string;
-  physical-asset-class-property-value sub attribute, value string;
-  physical-asset-class-property-value-unit-of-measure sub attribute, value string;
+  attribute physical-asset-class-property-id, value string;
+  attribute physical-asset-class-property-description, value string;
+  attribute physical-asset-class-property-value, value string;
+  attribute physical-asset-class-property-value-unit-of-measure, value string;
 
-  physical-asset-class-property sub entity,
-    plays physical-asset-class-property-owned,
-    plays physical-asset-class-property-definition,
-    plays physical-asset-class-property-parent,
-    plays physical-asset-class-property-child,
-    plays physical-asset-capability-test-subject,
+  entity physical-asset-class-property,
     owns physical-asset-class-property-id @key,
     owns physical-asset-class-property-description,
     owns physical-asset-class-property-value,
-    owns physical-asset-class-property-value-unit-of-measure;
+    owns physical-asset-class-property-value-unit-of-measure,
+    plays has-physical-asset-class-property:physical-asset-class-property-owned,
+    plays corresponds-to-physical-asset-class-property:physical-asset-class-property-definition,
+    plays has-physical-asset-class-sub-property:physical-asset-class-property-parent,
+    plays has-physical-asset-class-sub-property:physical-asset-class-property-child,
+    plays tested-by-physical-asset-capability-test-specification:physical-asset-capability-test-subject;
 
 # Physical Asset Entity (Table 17)
-define
-  physical-asset-id sub attribute, value string;
-  physical-asset-description sub attribute, value string;
-  physical-asset-physical-location sub attribute, value string;
-  physical-asset-fixed-asset-id sub attribute, value string;
-  physical-asset-vendor-id sub attribute, value string;
+  attribute physical-asset-id, value string;
+  attribute physical-asset-description, value string;
+  attribute physical-asset-physical-location, value string;
+  attribute physical-asset-fixed-asset-id, value string;
+  attribute physical-asset-vendor-id, value string;
 
-  physical-asset sub entity,
-    plays physical-asset-member,
-    plays physical-asset-owner,
-    plays physical-asset-parent,
-    plays physical-asset-child,
-    plays physical-asset-capability-test-subject,
-    plays mapped-physical-asset,
+  entity physical-asset,
     owns physical-asset-id @key,
     owns physical-asset-description,
     owns physical-asset-physical-location,
     owns physical-asset-fixed-asset-id,
-    owns physical-asset-vendor-id;
+    owns physical-asset-vendor-id,
+    plays belongs-to-physical-asset-class:physical-asset-member,
+    plays has-physical-asset-property:physical-asset-owner,
+    plays made-up-of-physical-asset:physical-asset-parent,
+    plays made-up-of-physical-asset:physical-asset-child,
+    plays tested-by-physical-asset-capability-test-specification:physical-asset-capability-test-subject,
+    plays equipment-asset-mapping:mapped-physical-asset;
 
 # Physical Asset Property Entity (Table 18)
-define
-  physical-asset-property-id sub attribute, value string;
-  physical-asset-property-description sub attribute, value string;
-  physical-asset-property-value sub attribute, value string;
-  physical-asset-property-value-unit-of-measure sub attribute, value string;
+  attribute physical-asset-property-id, value string;
+  attribute physical-asset-property-description, value string;
+  attribute physical-asset-property-value, value string;
+  attribute physical-asset-property-value-unit-of-measure, value string;
 
-  physical-asset-property sub entity,
-    plays physical-asset-property-owned,
-    plays physical-asset-property-instance,
-    plays physical-asset-property-parent,
-    plays physical-asset-property-child,
-    plays physical-asset-capability-test-subject,
+  entity physical-asset-property,
     owns physical-asset-property-id @key,
     owns physical-asset-property-description,
     owns physical-asset-property-value,
-    owns physical-asset-property-value-unit-of-measure;
+    owns physical-asset-property-value-unit-of-measure,
+    plays has-physical-asset-property:physical-asset-property-owned,
+    plays corresponds-to-physical-asset-class-property:physical-asset-property-instance,
+    plays has-physical-asset-sub-property:physical-asset-property-parent,
+    plays has-physical-asset-sub-property:physical-asset-property-child,
+    plays tested-by-physical-asset-capability-test-specification:physical-asset-capability-test-subject;
 
 # Physical Asset Capability Test Specification Entity (Table 21)
-define
-  physical-asset-capability-test-specification-id sub attribute, value string;
-  physical-asset-capability-test-specification-description sub attribute, value string;
-  physical-asset-capability-test-specification-version sub attribute, value string;
+  attribute physical-asset-capability-test-specification-id, value string;
+  attribute physical-asset-capability-test-specification-description, value string;
+  attribute physical-asset-capability-test-specification-version, value string;
 
-  physical-asset-capability-test-specification sub entity,
-    plays physical-asset-capability-test-specification,
-    plays physical-asset-capability-test-specification-producer,
+  entity physical-asset-capability-test-specification,
     owns physical-asset-capability-test-specification-id @key,
     owns physical-asset-capability-test-specification-description,
-    owns physical-asset-capability-test-specification-version;
+    owns physical-asset-capability-test-specification-version,
+    plays tested-by-physical-asset-capability-test-specification:physical-asset-capability-test-specification,
+    plays produces-physical-asset-capability-test-result:physical-asset-capability-test-specification-producer;
 
 # Physical Asset Capability Test Result Entity (Table 22)
-define
-  physical-asset-capability-test-result-id sub attribute, value string;
-  physical-asset-capability-test-result-description sub attribute, value string;
-  physical-asset-capability-test-result-date sub attribute, value datetime;
-  physical-asset-capability-test-result-result sub attribute, value string;
-  physical-asset-capability-test-result-result-unit-of-measure sub attribute, value string;
-  physical-asset-capability-test-result-expiration sub attribute, value datetime;
+  attribute physical-asset-capability-test-result-id, value string;
+  attribute physical-asset-capability-test-result-description, value string;
+  attribute physical-asset-capability-test-result-date, value datetime;
+  attribute physical-asset-capability-test-result-result, value string;
+  attribute physical-asset-capability-test-result-result-unit-of-measure, value string;
+  attribute physical-asset-capability-test-result-expiration, value datetime;
 
-  physical-asset-capability-test-result sub entity,
-    plays physical-asset-capability-test-result-produced,
+  entity physical-asset-capability-test-result,
     owns physical-asset-capability-test-result-id @key,
     owns physical-asset-capability-test-result-description,
     owns physical-asset-capability-test-result-date,
     owns physical-asset-capability-test-result-result,
     owns physical-asset-capability-test-result-result-unit-of-measure,
-    owns physical-asset-capability-test-result-expiration;
+    owns physical-asset-capability-test-result-expiration,
+    plays produces-physical-asset-capability-test-result:physical-asset-capability-test-result-produced;
 
 # -----------------------------------------------------------------------------
 # Extending the Equipment Entity from Section 5.2
 # -----------------------------------------------------------------------------
 # Equipment needs to play the 'mapped-equipment' role in the equipment-asset mapping.
-define
-  equipment plays mapped-equipment;
+  entity equipment, 
+    plays equipment-asset-mapping:mapped-equipment;
 
 # -----------------------------------------------------------------------------
 # Relations
 # -----------------------------------------------------------------------------
 
 # Composition: Physical Asset Class has Physical Asset Class Properties
-define
-  has-physical-asset-class-property-id sub attribute, value string;
+  attribute has-physical-asset-class-property-id, value string;
 
-  has-physical-asset-class-property sub relation,
+  relation has-physical-asset-class-property,
     relates physical-asset-class-owner,
     relates physical-asset-class-property-owned,
     owns has-physical-asset-class-property-id @key;
 
 # Nested physical asset class properties
-define
-  has-physical-asset-class-sub-property-id sub attribute, value string;
+  attribute has-physical-asset-class-sub-property-id, value string;
 
-  has-physical-asset-class-sub-property sub relation,
+  relation has-physical-asset-class-sub-property,
     relates physical-asset-class-property-parent,
     relates physical-asset-class-property-child,
     owns has-physical-asset-class-sub-property-id @key;
@@ -156,77 +150,69 @@ define
 # "Any physical asset shall be a member of one physical asset class."
 # Therefore, cardinality from Physical Asset to Physical Asset Class is 0..1 (or exactly 1).
 # Enforcement is handled at the application layer.
-define
-  belongs-to-physical-asset-class-id sub attribute, value string;
+  attribute belongs-to-physical-asset-class-id, value string;
 
-  belongs-to-physical-asset-class sub relation,
+  relation belongs-to-physical-asset-class,
     relates physical-asset-member,
     relates physical-asset-class-membership,
     owns belongs-to-physical-asset-class-id @key;
 
 # Composition: Physical Asset has Physical Asset Properties
-define
-  has-physical-asset-property-id sub attribute, value string;
+  attribute has-physical-asset-property-id, value string;
 
-  has-physical-asset-property sub relation,
+  relation has-physical-asset-property,
     relates physical-asset-owner,
     relates physical-asset-property-owned,
     owns has-physical-asset-property-id @key;
 
 # Nested physical asset properties
-define
-  has-physical-asset-sub-property-id sub attribute, value string;
+  attribute has-physical-asset-sub-property-id, value string;
 
-  has-physical-asset-sub-property sub relation,
+  relation has-physical-asset-sub-property,
     relates physical-asset-property-parent,
     relates physical-asset-property-child,
     owns has-physical-asset-sub-property-id @key;
 
 # Association: Physical Asset Property corresponds to Physical Asset Class Property
-define
-  corresponds-to-physical-asset-class-property-id sub attribute, value string;
+  attribute corresponds-to-physical-asset-class-property-id, value string;
 
-  corresponds-to-physical-asset-class-property sub relation,
+  relation corresponds-to-physical-asset-class-property,
     relates physical-asset-property-instance,
     relates physical-asset-class-property-definition,
     owns corresponds-to-physical-asset-class-property-id @key;
 
 # Association: Physical Asset may be made up of other physical assets
-define
-  made-up-of-physical-asset-id sub attribute, value string;
+  attribute made-up-of-physical-asset-id, value string;
 
-  made-up-of-physical-asset sub relation,
+  relation made-up-of-physical-asset,
     relates physical-asset-parent,
     relates physical-asset-child,
     owns made-up-of-physical-asset-id @key;
 
 # Association: A capability test specification may be associated with class, property, or asset
-define
-  tested-by-physical-asset-capability-test-specification-id sub attribute, value string;
+  attribute tested-by-physical-asset-capability-test-specification-id, value string;
 
-  tested-by-physical-asset-capability-test-specification sub relation,
+  relation tested-by-physical-asset-capability-test-specification,
     relates physical-asset-capability-test-subject,
     relates physical-asset-capability-test-specification,
     owns tested-by-physical-asset-capability-test-specification-id @key;
 
 # Association: A test specification produces one or more results
-define
-  produces-physical-asset-capability-test-result-id sub attribute, value string;
+  attribute produces-physical-asset-capability-test-result-id, value string;
 
-  produces-physical-asset-capability-test-result sub relation,
+  relation produces-physical-asset-capability-test-result,
     relates physical-asset-capability-test-specification-producer,
     relates physical-asset-capability-test-result-produced,
     owns produces-physical-asset-capability-test-result-id @key;
 
 # Equipment Asset Mapping (Table 23)
 # Relates a Physical Asset to a role-based Equipment over a time period.
-define
-  equipment-asset-mapping-id sub attribute, value string;
-  equipment-asset-mapping-description sub attribute, value string;
-  equipment-asset-mapping-start-time sub attribute, value datetime;
-  equipment-asset-mapping-end-time sub attribute, value datetime;
+  attribute equipment-asset-mapping-id, value string;
+  attribute equipment-asset-mapping-description, value string;
+  attribute equipment-asset-mapping-start-time, value datetime;
+  attribute equipment-asset-mapping-end-time, value datetime;
 
-  equipment-asset-mapping sub relation,
+  relation equipment-asset-mapping,
     relates mapped-equipment,
     relates mapped-physical-asset,
     owns equipment-asset-mapping-id @key,
