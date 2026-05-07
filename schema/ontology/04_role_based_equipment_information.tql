@@ -117,8 +117,6 @@ define
 
 # Composition: Equipment Class has Equipment Class Properties
 # CASCADE DELETE: When deleting equipment-class, application must delete all related equipment-class-property entities
-define
-  has-equipment-class-property-id sub attribute, value string;
   attribute has-equipment-class-property-id, value string;
 
   relation has-equipment-class-property,
