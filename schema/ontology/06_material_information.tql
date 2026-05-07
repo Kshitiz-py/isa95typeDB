@@ -1,0 +1,298 @@
+# Material Information Ontology (IEC 62264-2 Section 5.4)
+# This schema defines the material model including actual materials, material definitions, 
+# and information about classes of material definitions. 
+
+# -----------------------------------------------------------------------------
+# Attributes Specific to Material Information
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Relations (Defined BEFORE Entities per TypeDB dependency requirements)
+# ensures all roles are registered before entities try to play them
+# -----------------------------------------------------------------------------
+
+# Composition Relationships
+define
+  material-class-owns-property-id sub attribute, value string;
+  material-class-owns-property sub relation,
+    relates material-class-property-owner,
+    relates material-class-property-owned,
+    owns material-class-owns-property-id @key;
+
+define
+  material-definition-owns-property-id sub attribute, value string;
+  material-definition-owns-property sub relation,
+    relates material-definition-property-owner,
+    relates material-definition-property-owned,
+    owns material-definition-owns-property-id @key;
+
+define
+  material-owns-property-id sub attribute, value string;
+  # Used by both Material Lot and Material Sublot to own Material Lot Properties
+  material-owns-property sub relation,
+    relates material-lot-property-owner,
+    relates material-property-owned,
+    owns material-owns-property-id @key;
+
+define
+  material-lot-sublot-aggregation-id sub attribute, value string;
+  # Aggregation relationship: Material Lot is the aggregate (whole), Material Sublot is the component (part)
+  # Triggers cascading delete semantics in backend - deleting a Material Lot removes its component Material Sublots
+  material-lot-sublot-aggregation sub relation,
+    relates aggregate-material-lot,
+    relates component-material-sublot,
+    owns material-lot-sublot-aggregation-id @key;
+
+# Property Nesting Relationships
+define
+  material-class-property-nesting-id sub attribute, value string;
+  material-class-property-nesting sub relation,
+    relates material-class-property-parent,
+    relates material-class-property-child,
+    owns material-class-property-nesting-id @key;
+
+define
+  material-definition-property-nesting-id sub attribute, value string;
+  material-definition-property-nesting sub relation,
+    relates material-definition-property-parent,
+    relates material-definition-property-child,
+    owns material-definition-property-nesting-id @key;
+
+define
+  material-lot-property-nesting-id sub attribute, value string;
+  material-lot-property-nesting sub relation,
+    relates material-lot-property-parent,
+    relates material-lot-property-child,
+    owns material-lot-property-nesting-id @key;
+
+# Assembly/Nesting Relationships
+define
+  material-class-assembly-id sub attribute, value string;
+  material-class-assembly sub relation,
+    relates assembly-parent-material-class,
+    relates assembly-child-material-class,
+    owns material-class-assembly-id @key;
+
+define
+  material-definition-assembly-id sub attribute, value string;
+  material-definition-assembly sub relation,
+    relates assembly-parent-material-definition,
+    relates assembly-child-material-definition,
+    owns material-definition-assembly-id @key;
+
+define
+  material-lot-sublot-assembly-id sub attribute, value string;
+  material-lot-sublot-assembly sub relation,
+    relates assembly-parent-material-lot-sublot,
+    relates assembly-child-material-lot-sublot,
+    owns material-lot-sublot-assembly-id @key;
+
+# Testing Relationships
+define
+  material-test-id sub attribute, value string;
+  material-test sub relation,
+    relates material-testing-procedure,
+    relates material-test-subject,
+    owns material-test-id @key;
+
+define
+  material-test-execution-id sub attribute, value string;
+  material-test-execution sub relation,
+    relates material-test-execution-specification,
+    relates material-test-execution-subject,
+    relates material-test-execution-result,
+    owns material-test-execution-id @key;
+
+# Mapping/Categorization Relationships
+define
+  material-class-mapping-id sub attribute, value string;
+  material-class-mapping sub relation,
+    relates material-class-membership,
+    relates material-class-member,
+    owns material-class-mapping-id @key;
+
+define
+  material-definition-mapping-id sub attribute, value string;
+  material-definition-mapping sub relation,
+    relates material-definition-instantiation-parent,
+    relates material-definition-instantiation-child,
+    owns material-definition-mapping-id @key;
+
+# -----------------------------------------------------------------------------
+# Entities
+# -----------------------------------------------------------------------------
+
+# Material Class Entity (Table 24)
+define
+  material-class-id sub attribute, value string;
+  material-class-description sub attribute, value string;
+  material-class-assembly-type sub attribute, value string;
+  material-class-assembly-relationship sub attribute, value string;
+
+  material-class sub entity,
+    plays material-class-membership,
+    plays material-class-property-owner,
+    plays assembly-parent-material-class,
+    plays assembly-child-material-class,
+    plays material-test-subject,
+    owns material-class-id @key,
+    owns material-class-description,
+    owns material-class-assembly-type,
+    owns material-class-assembly-relationship;
+
+# Material Class Property Entity (Table 25)
+define
+  material-class-property-id sub attribute, value string;
+  material-class-property-description sub attribute, value string;
+  material-class-property-value sub attribute, value string;
+  material-class-property-value-unit-of-measure sub attribute, value string;
+
+  material-class-property sub entity,
+    plays material-class-property-owned,
+    plays material-class-property-parent,
+    plays material-class-property-child,
+    plays material-test-subject,
+    owns material-class-property-id @key,
+    owns material-class-property-description,
+    owns material-class-property-value,
+    owns material-class-property-value-unit-of-measure;
+
+# Material Definition Entity (Table 26)
+define
+  material-definition-id sub attribute, value string;
+  material-definition-description sub attribute, value string;
+  material-definition-assembly-type sub attribute, value string;
+  material-definition-assembly-relationship sub attribute, value string;
+
+  material-definition sub entity,
+    plays material-definition-instantiation-parent,
+    plays material-class-member,
+    plays material-definition-property-owner,
+    plays assembly-parent-material-definition,
+    plays assembly-child-material-definition,
+    plays material-test-subject,
+    owns material-definition-id @key,
+    owns material-definition-description,
+    owns material-definition-assembly-type,
+    owns material-definition-assembly-relationship;
+
+# Material Definition Property Entity (Table 27)
+define
+  material-definition-property-id sub attribute, value string;
+  material-definition-property-description sub attribute, value string;
+  material-definition-property-value sub attribute, value string;
+  material-definition-property-value-unit-of-measure sub attribute, value string;
+
+  material-definition-property sub entity,
+    plays material-definition-property-owned,
+    plays material-definition-property-parent,
+    plays material-definition-property-child,
+    plays material-test-subject,
+    owns material-definition-property-id @key,
+    owns material-definition-property-description,
+    owns material-definition-property-value,
+    owns material-definition-property-value-unit-of-measure;
+
+# Material Lot Entity (Table 28)
+define
+  material-lot-id sub attribute, value string;
+  material-lot-description sub attribute, value string;
+  material-lot-assembly-type sub attribute, value string;
+  material-lot-assembly-relationship sub attribute, value string;
+  material-lot-status sub attribute, value string;
+  material-lot-storage-location sub attribute, value string;
+  material-lot-quantity sub attribute, value double;
+  material-lot-quantity-unit-of-measure sub attribute, value string;
+
+  material-lot sub entity,
+    plays material-definition-instantiation-child,
+    plays material-lot-property-owner,
+    plays aggregate-material-lot,
+    plays assembly-parent-material-lot-sublot,
+    plays assembly-child-material-lot-sublot,
+    plays material-test-subject,
+    plays material-test-execution-subject,
+    owns material-lot-id @key,
+    owns material-lot-description,
+    owns material-lot-assembly-type,
+    owns material-lot-assembly-relationship,
+    owns material-lot-status,
+    owns material-lot-storage-location,
+    owns material-lot-quantity,
+    owns material-lot-quantity-unit-of-measure;
+
+# Material Lot Property Entity (Table 29)
+# Also owned by Material Sublot
+define
+  material-lot-property-id sub attribute, value string;
+  material-lot-property-description sub attribute, value string;
+  material-lot-property-value sub attribute, value string;
+  material-lot-property-value-unit-of-measure sub attribute, value string;
+
+  material-lot-property sub entity,
+    plays material-property-owned,
+    plays material-lot-property-parent,
+    plays material-lot-property-child,
+    plays material-test-subject,
+    owns material-lot-property-id @key,
+    owns material-lot-property-description,
+    owns material-lot-property-value,
+    owns material-lot-property-value-unit-of-measure;
+
+# Material Sublot Entity (Table 30)
+define
+  material-sublot-id sub attribute, value string;
+  material-sublot-description sub attribute, value string;
+  material-sublot-assembly-type sub attribute, value string;
+  material-sublot-assembly-relationship sub attribute, value string;
+  material-sublot-status sub attribute, value string;
+  material-sublot-storage-location sub attribute, value string;
+  material-sublot-quantity sub attribute, value double;
+  material-sublot-quantity-unit-of-measure sub attribute, value string;
+
+  material-sublot sub entity,
+    plays material-lot-property-owner, #sublot also owns the property from material lot as there needs to be one to one mapping of properties in lot and sublot
+    plays component-material-sublot,
+    plays assembly-parent-material-lot-sublot,
+    plays assembly-child-material-lot-sublot,
+    plays material-test-subject,
+    plays material-test-execution-subject,
+    owns material-sublot-id @key,
+    owns material-sublot-description,
+    owns material-sublot-assembly-type,
+    owns material-sublot-assembly-relationship,
+    owns material-sublot-status,
+    owns material-sublot-storage-location,
+    owns material-sublot-quantity,
+    owns material-sublot-quantity-unit-of-measure;
+
+# Material Test Specification Entity (Table 31)
+define
+  material-test-specification-id sub attribute, value string;
+  material-test-specification-description sub attribute, value string;
+  material-test-specification-version sub attribute, value string;
+
+  material-test-specification sub entity,
+    plays material-testing-procedure,
+    plays material-test-execution-specification,
+    owns material-test-specification-id @key,
+    owns material-test-specification-description,
+    owns material-test-specification-version;
+
+# Material Test Result Entity (Table 32)
+define
+  material-test-result-id sub attribute, value string;
+  material-test-result-description sub attribute, value string;
+  material-test-result-date sub attribute, value datetime;
+  material-test-result-result sub attribute, value string;
+  material-test-result-result-unit-of-measure sub attribute, value string;
+  material-test-result-expiration sub attribute, value datetime;
+
+  material-test-result sub entity,
+    plays material-test-execution-result,
+    owns material-test-result-id @key,
+    owns material-test-result-description,
+    owns material-test-result-date,
+    owns material-test-result-result,
+    owns material-test-result-result-unit-of-measure,
+    owns material-test-result-expiration;
