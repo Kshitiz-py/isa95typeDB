@@ -13,164 +13,153 @@
 # Personnel Class Entity
 # Represents a category or classification of personnel (e.g., "Widget Assembly Operator")
 define
-  personnel-class-id sub attribute, value string;
-  personnel-class-description sub attribute, value string;
 
-  personnel-class sub entity,
-    plays personnel-class-membership,
-    plays personnel-class-owner,
-    plays qualification-test-subject,
+  attribute personnel-class-id, value string;
+  attribute personnel-class-description, value string;
+
+  entity personnel-class,
     owns personnel-class-id @key,
-    owns personnel-class-description;
+    owns personnel-class-description,
+    plays belongs-to-personnel-class:personnel-class-membership,
+    plays has-personnel-class-property:personnel-class-owner,
+    plays tested-by-qualification-test-specification:qualification-test-subject;
 
 # Personnel Class Property Entity
 # Properties that define characteristics of a personnel class (e.g., "Class 1 Certified")
 # These properties may also be nested under other personnel class properties.
-define
-  personnel-class-property-id sub attribute, value string;
-  personnel-class-property-description sub attribute, value string;
-  personnel-class-property-value sub attribute, value string;
-  personnel-class-property-value-unit-of-measure sub attribute, value string;
+  attribute personnel-class-property-id, value string;
+  attribute personnel-class-property-description, value string;
+  attribute personnel-class-property-value, value string;
+  attribute personnel-class-property-value-unit-of-measure, value string;
 
-  personnel-class-property sub entity,
-    plays personnel-class-property-owned,
-    plays personnel-class-property-definition,
-    plays personnel-class-property-parent,
-    plays personnel-class-property-child,
-    plays qualification-test-subject,
+  entity personnel-class-property,
     owns personnel-class-property-id @key,
     owns personnel-class-property-description,
     owns personnel-class-property-value,
-    owns personnel-class-property-value-unit-of-measure;
+    owns personnel-class-property-value-unit-of-measure,
+    plays has-personnel-class-property:personnel-class-property-owned,
+    plays corresponds-to-personnel-class-property:personnel-class-property-definition,
+    plays has-personnel-class-sub-property:personnel-class-property-parent,
+    plays has-personnel-class-sub-property:personnel-class-property-child,
+    plays tested-by-qualification-test-specification:qualification-test-subject;
 
 # Person Entity
 # Represents a specific individual
-define
-  person-id sub attribute, value string;
-  person-description sub attribute, value string;
-  person-name sub attribute, value string;
+  attribute person-id, value string;
+  attribute person-description, value string;
+  attribute person-name, value string;
 
-  person sub entity,
-    plays person-member,
-    plays person-owner,
-    plays qualification-test-subject,
-    plays qualification-test-result-person,
+  entity person,
     owns person-id @key,
     owns person-description,
-    owns person-name;
+    owns person-name,
+    plays belongs-to-personnel-class:person-member,
+    plays has-person-property:person-owner,
+    plays tested-by-qualification-test-specification:qualification-test-subject;
 
 # Person Property Entity
 # Properties that define characteristics of a specific person
 # These properties may also be nested under other person properties.
-define
-  person-property-id sub attribute, value string;
-  person-property-description sub attribute, value string;
-  person-property-value sub attribute, value string;
-  person-property-value-unit-of-measure sub attribute, value string;
+  attribute person-property-id, value string;
+  attribute person-property-description, value string;
+  attribute person-property-value, value string;
+  attribute person-property-value-unit-of-measure, value string;
 
-  person-property sub entity,
-    plays person-property-owned,
-    plays person-property-instance,
-    plays person-property-parent,
-    plays person-property-child,
-    plays qualification-test-subject,
+  entity person-property,
     owns person-property-id @key,
     owns person-property-description,
     owns person-property-value,
-    owns person-property-value-unit-of-measure;
+    owns person-property-value-unit-of-measure,
+    plays has-person-property:person-property-owned,
+    plays corresponds-to-personnel-class-property:person-property-instance,
+    plays has-person-sub-property:person-property-parent,
+    plays has-person-sub-property:person-property-child,
+    plays tested-by-qualification-test-specification:qualification-test-subject;
 
 # Qualification Test Specification Entity
 # Represents a test definition that may be associated with people, classes, or properties.
-define
-  qualification-test-specification-id sub attribute, value string;
-  qualification-test-specification-description sub attribute, value string;
-  qualification-test-specification-version sub attribute, value string;
+  attribute qualification-test-specification-id, value string;
+  attribute qualification-test-specification-description, value string;
+  attribute qualification-test-specification-version, value string;
 
-  qualification-test-specification sub entity,
-    plays qualification-test-specification,
-    plays qualification-test-specification-producer,
+  entity qualification-test-specification,
     owns qualification-test-specification-id @key,
     owns qualification-test-specification-description,
-    owns qualification-test-specification-version;
+    owns qualification-test-specification-version,
+    plays tested-by-qualification-test-specification:qualification-test-specification,
+    plays produces-qualification-test-result:qualification-test-specification-producer;
 
 # Qualification Test Result Entity
 # Represents the result of executing a qualification test for a specific person.
 # The standard describes the result as recording an execution for a specific person,
 # but it does not define an explicit relation from the result to the person in Figure 5.
 # That person association is therefore captured via the result data semantics.
-define
-  qualification-test-result-id sub attribute, value string;
-  qualification-test-result-description sub attribute, value string;
-  qualification-test-result-value sub attribute, value string;
-  qualification-test-result-result-unit-of-measure sub attribute, value string;
-  qualification-test-result-date sub attribute, value datetime;
-  qualification-test-result-expiration sub attribute, value datetime;
+  attribute qualification-test-result-id, value string;
+  attribute qualification-test-result-description, value string;
+  attribute qualification-test-result-value, value string;
+  attribute qualification-test-result-result-unit-of-measure, value string;
+  attribute qualification-test-result-date, value datetime;
+  attribute qualification-test-result-expiration, value datetime;
 
-  qualification-test-result sub entity,
-    plays qualification-test-result-produced,
+  entity qualification-test-result,
     owns qualification-test-result-id @key,
     owns qualification-test-result-description,
     owns qualification-test-result-value,
     owns qualification-test-result-result-unit-of-measure,
     owns qualification-test-result-date,
-    owns qualification-test-result-expiration;
+    owns qualification-test-result-expiration,
+    plays produces-qualification-test-result:qualification-test-result-produced;
 
 # Relations
 
 # Composition: Personnel Class has Personnel Class Properties
 # CASCADE DELETE: When deleting personnel-class, application must delete all related personnel-class-property entities
-define
-  has-personnel-class-property-id sub attribute, value string;
+  attribute has-personnel-class-property-id, value string;
 
-  has-personnel-class-property sub relation,
+  relation has-personnel-class-property,
     relates personnel-class-owner,
     relates personnel-class-property-owned,
     owns has-personnel-class-property-id @key;
 
 # Nested personnel class properties
 # A personnel class property may contain nested personnel class properties.
-define
-  has-personnel-class-sub-property-id sub attribute, value string;
+  attribute has-personnel-class-sub-property-id, value string;
 
-  has-personnel-class-sub-property sub relation,
+  relation has-personnel-class-sub-property,
     relates personnel-class-property-parent,
     relates personnel-class-property-child,
     owns has-personnel-class-sub-property-id @key;
 
 # Association: Person belongs to Personnel Classes
-define
-  belongs-to-personnel-class-id sub attribute, value string;
+  attribute belongs-to-personnel-class-id, value string;
 
-  belongs-to-personnel-class sub relation,
+  relation belongs-to-personnel-class,
     relates person-member,
     relates personnel-class-membership,
     owns belongs-to-personnel-class-id @key;
 
 # Composition: Person has Person Properties
 # CASCADE DELETE: When deleting person, application must delete all related person-property entities
-define
-  has-person-property-id sub attribute, value string;
+  attribute has-person-property-id, value string;
 
-  has-person-property sub relation,
+  relation has-person-property,
     relates person-owner,
     relates person-property-owned,
     owns has-person-property-id @key;
 
 # Nested person properties
 # A person property may contain nested person properties.
-define
-  has-person-sub-property-id sub attribute, value string;
+  attribute has-person-sub-property-id, value string;
 
-  has-person-sub-property sub relation,
+  relation has-person-sub-property,
     relates person-property-parent,
     relates person-property-child,
     owns has-person-sub-property-id @key;
 
 # Association: Person Property corresponds to Personnel Class Property
-define
-  corresponds-to-personnel-class-property-id sub attribute, value string;
+  attribute corresponds-to-personnel-class-property-id, value string;
 
-  corresponds-to-personnel-class-property sub relation,
+  relation corresponds-to-personnel-class-property,
     relates person-property-instance,
     relates personnel-class-property-definition,
     owns corresponds-to-personnel-class-property-id @key;
@@ -178,19 +167,17 @@ define
 # Association: A qualification test specification may be associated with a personnel class,
 # a personnel class property, a person, or a person property. This is an association relation,
 # not composition.
-define
-  tested-by-qualification-test-specification-id sub attribute, value string;
+  attribute tested-by-qualification-test-specification-id, value string;
 
-  tested-by-qualification-test-specification sub relation,
+  relation tested-by-qualification-test-specification,
     relates qualification-test-subject,
     relates qualification-test-specification,
     owns tested-by-qualification-test-specification-id @key;
 
 # Association: A qualification test specification may produce one or more results.
-define
-  produces-qualification-test-result-id sub attribute, value string;
+  attribute produces-qualification-test-result-id, value string;
 
-  produces-qualification-test-result sub relation,
+  relation produces-qualification-test-result,
     relates qualification-test-specification-producer,
     relates qualification-test-result-produced,
     owns produces-qualification-test-result-id @key;

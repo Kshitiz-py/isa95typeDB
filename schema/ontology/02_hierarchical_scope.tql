@@ -1,17 +1,4 @@
 define
-  equipment-id sub attribute,
-    value string;
-
-  equipment-element-level sub attribute,
-    value string;
-
-  hierarchy-scope sub entity,
-    owns equipment-id,
-    owns equipment-element-level;
-
-  has-hierarchy-scope sub relation,
-    relates scoped-object,
-    relates hierarchy-scope;
 
   # Notes:
   # - In DIN 62264-2 section 4.7, Hierarchy Scope is described as an attribute used by many objects.
@@ -22,3 +9,16 @@ define
   #   * `equipment-element-level` (equipment hierarchy level such as Enterprise, Site, Area, Work Center)
   # - The link `has-hierarchy-scope` models the optional relationship from other objects to a hierarchy scope instance.
   # - Example objects that may use Hierarchy Scope include Production Performance, Production Capability, Maintenance, Quality, and Inventory information.
+
+  attribute equipment-id, value string;
+  attribute equipment-element-level, value string;
+
+  entity hierarchy-scope,
+    owns equipment-id,
+    owns equipment-element-level,
+    plays has-hierarchy-scope:hierarchy-scope;
+
+  relation has-hierarchy-scope,
+    relates scoped-object,
+    relates hierarchy-scope;
+
