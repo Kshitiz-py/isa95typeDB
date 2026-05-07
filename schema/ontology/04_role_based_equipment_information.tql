@@ -16,12 +16,12 @@ define
 
   attribute equipment-class-id, value string;
   attribute equipment-class-description, value string;
-  attribute equipment-class-level, value string;
+  attribute equipment-class-equipment-level, value string;
 
   entity equipment-class,
     owns equipment-class-id @key,
     owns equipment-class-description,
-    owns equipment-class-level,
+    owns equipment-class-equipment-level,
     plays belongs-to-equipment-class:equipment-class-membership,
     plays has-equipment-class-property:equipment-class-owner,
     plays tested-by-equipment-capability-test-specification:equipment-capability-test-subject;
@@ -49,11 +49,12 @@ define
 # Represents a specific piece of equipment (e.g., "Jig 347")
   attribute equipment-id, value string;
   attribute equipment-description, value string;
+  attribute equipment-equipment-level, value string;
 
   entity equipment,
     owns equipment-id @key,
     owns equipment-description,
-    owns equipment-level,
+    owns equipment-equipment-level,
     plays belongs-to-equipment-class:equipment-member,
     plays has-equipment-property:equipment-owner,
     plays made-up-of-equipment:equipment-parent,
